@@ -1,0 +1,83 @@
+openapi: 3.0.1
+info:
+  title: Hashtagger
+  description: "This is  a simple API that recieve hashtag, and other params, and\
+    \ return a list of reccomended hashtags."
+  termsOfService: None.none
+  contact:
+    email: None@none.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+- url: https://localhost:8080/
+tags:
+- name: hashtag
+  description: Everything about your popular hashtags.
+paths:
+  /Hashtags/{seedHashtag}:
+    get:
+      tags:
+      - hashtag
+      summary: Get hashtags from seed hashtag
+      description: Returns List of hashtags that are
+      operationId: get_pet_by_id
+      parameters:
+      - name: seedHashtag
+        in: path
+        description: The initial seed
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/HashtagList'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HashtagList'
+        "400":
+          description: Invalid ID supplied
+          content: {}
+        "404":
+          description: Pet not found
+          content: {}
+      x-openapi-router-controller: swagger_server.controllers.hashtag_controller
+components:
+  schemas:
+    HashtagList:
+      type: object
+      properties:
+        photoUrls:
+          type: array
+          xml:
+            name: hashtag
+            wrapped: false
+          items:
+            type: string
+      example:
+        photoUrls:
+        - photoUrls
+        - photoUrls
+      xml:
+        name: HashtagList
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+
